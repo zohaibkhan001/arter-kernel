@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Setup Environment
         run: |
-          sudo apt update
+          sudo apt update -y
           sudo apt install -y build-essential bc bison flex libssl-dev \
               gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi ccache git \
               libncurses5-dev libelf-dev libdw-dev \
