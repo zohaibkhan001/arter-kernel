@@ -35,11 +35,10 @@ jobs:
 
       - name: Download LLVM 19.1.7
         run: |
-          curl -LO https://github.com/llvm/llvm-project/releases/download/llvmorg-${{ env.CLANG_VERSION }}/clang+llvm-${{ env.CLANG_VERSION }}-x86_64-linux-gnu-ubuntu-22.04.tar.xz
-          tar -xf clang+llvm-${{ env.CLANG_VERSION }}-x86_64-linux-gnu-ubuntu-22.04.tar.xz
-          mv clang+llvm-${{ env.CLANG_VERSION }}-x86_64-linux-gnu-ubuntu-22.04 clang
+          curl -LO https://github.com/llvm/llvm-project/releases/download/llvmorg-19.1.7/clang+llvm-19.1.7-x86_64-pc-windows-msvc.tar.xz
+          tar -xf clang+llvm-19.1.7-x86_64-pc-windows-msvc.tar.xz
+          mv clang+llvm-19.1.7-x86_64-pc-windows-msvc clang
           export PATH=$PWD/clang/bin:$PATH
-          export LD_LIBRARY_PATH=$PWD/clang/lib:$LD_LIBRARY_PATH
 
       - name: Remove Existing KernelSU Folder
         run: rm -rf drivers/kernelsu
