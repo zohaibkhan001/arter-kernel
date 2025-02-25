@@ -31,7 +31,7 @@ jobs:
       - name: Check Clang Version
         run: |
           clang --version
-          which -clang
+          which clang
 
       - name: Checkout Kernel Source
         uses: actions/checkout@v4
@@ -48,7 +48,7 @@ jobs:
       - name: Update Makefile and Patch selinux/rules.c
         run: |
           # Update LLVM_PATH in Makefile
-          sed -i 's|^override LLVM_PATH := .*|override LLVM_PATH := $(pwd)/clang|' Makefile
+          sed -i 's|^override LLVM_PATH := .*|override LLVM_PATH := /usr/bin/|' Makefile
           
           # Patch selinux/rules.c
           sed -i '/\/\/ reset avc cache table, otherwise the new rules will not take effect if already denied/,/selinux_xfrm_notify_policyload();/c\
