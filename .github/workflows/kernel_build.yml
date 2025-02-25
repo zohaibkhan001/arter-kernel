@@ -23,22 +23,20 @@ jobs:
           sudo apt update -y
           sudo apt install -y build-essential bc bison flex libssl-dev \
               gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi ccache git libc6-dev \
-              libncurses5-dev libelf-dev libdw-dev \
+              libncurses5-dev libelf-dev libdw-dev clang llvm lld lldb \
               python3 python3-pip python3-venv \
               lzop curl zip unzip fakeroot rsync libssl-dev lz4 cpio \
               python3-pycryptodome
+              
+      - name: Check Clang Version
+        run: |
+          clang --version
+          which -clang
 
       - name: Checkout Kernel Source
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-
-      - name: Download LLVM 19.1.7
-        run: |
-          curl -LO https://github.com/llvm/llvm-project/releases/download/llvmorg-19.1.7/clang+llvm-19.1.7-x86_64-pc-windows-msvc.tar.xz
-          tar -xf clang+llvm-19.1.7-x86_64-pc-windows-msvc.tar.xz
-          mv clang+llvm-19.1.7-x86_64-pc-windows-msvc clang
-          export PATH=$PWD/clang/bin:$PATH
 
       - name: Remove Existing KernelSU Folder
         run: rm -rf drivers/kernelsu
