@@ -33,6 +33,13 @@ jobs:
           clang --version
           which clang
 
+      - name: Clone mkbootimg
+        run: |
+          git clone https://android.googlesource.com/platform/system/tools/mkbootimg
+          cd mkbootimg
+          chmod +x mkbootimg.py
+          sudo mv mkbootimg.py /usr/local/bin/mkbootimg.py
+          
       - name: Checkout Kernel Source
         uses: actions/checkout@v4
         with:
@@ -65,8 +72,10 @@ jobs:
           cp susfs4ksu/kernel_patches/include/linux/* ./include/linux/
           patch -p1 < 50_add_susfs_in_gki-android13-5.10.patch
 
-      - name: Make Build Script Executable
-        run: chmod +x build_kernel.sh
+      - name: Modify Build Script and Make it Executable
+        run: |
+          sed -i 's~make "\$@" || exit 1~make olddefconfig "\$@" || exit 1\n\tsed -i '\''/^# CONFIG_KSU_ALLOWLIST_WORKAROUND is not set/a # CONFIG_KSU_WITH_KPROBES is not set'\'' .config\n\tgrep "CONFIG_KSU" .config\n\tmake -j$(nproc) "\$@" || exit 1~' build_kernel.sh
+          chmod +x build_kernel.sh
 
       - name: Compile Kernel
         run: ./build_kernel.sh
