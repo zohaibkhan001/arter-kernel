@@ -22,10 +22,10 @@ jobs:
         run: |
           sudo apt update -y
           sudo apt install -y build-essential bc bison flex libssl-dev \
-              gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi ccache git \
+              gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi ccache git libc6-dev \
               libncurses5-dev libelf-dev libdw-dev \
               python3 python3-pip python3-venv \
-              libtinfo5 lzop curl zip unzip fakeroot \
+              lzop curl zip unzip fakeroot rsync libssl-dev lz4 cpio \
               python3-pycryptodome
 
       - name: Checkout Kernel Source
