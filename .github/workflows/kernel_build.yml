@@ -68,10 +68,10 @@ jobs:
           patch -p1 < 50_add_susfs_in_gki-android13-5.10.patch
 
       - name: Make Build Script Executable
-        run: chmod +x build.sh
+        run: chmod +x build_kernel.sh
 
       - name: Compile Kernel
-        run: ./build.sh skip
+        run: ./build_kernel.sh skip
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
