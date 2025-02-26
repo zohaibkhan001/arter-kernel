@@ -15,7 +15,6 @@ jobs:
     env:
       KERNEL_REPO: ${{ github.repository }}
       BRANCH: kernelsu
-      CLANG_VERSION: "19.1.7"
 
     steps:
       - name: Setup Environment
@@ -47,6 +46,7 @@ jobs:
         run: |
           which mkbootimg.py
           mkbootimg.py --help
+          echo $PYTHONPATH
           
       - name: Checkout Kernel Source
         uses: actions/checkout@v4
