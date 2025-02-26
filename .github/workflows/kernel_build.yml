@@ -33,15 +33,15 @@ jobs:
           clang --version
           which clang
 
-      - name: Clone mkbootimg
+      - name: Setup mkbootimg
         run: |
           git clone https://github.com/LineageOS/android_system_tools_mkbootimg mkbootimg
           cd mkbootimg
           chmod +x mkbootimg.py
-          export PYTHONPATH=$PYTHONPATH:$(pwd)
-          export PYTHONPATH=$PYTHONPATH:$(pwd)/gki
-          sudo ln -sf $(pwd)/mkbootimg.py /usr/local/bin/mkbootimg.py
-          sudo chmod +x /usr/local/bin/mkbootimg.py
+          sudo cp mkbootimg.py /usr/local/bin/mkbootimg.py
+          sudo cp -r gki /usr/local/bin/gki
+        env:
+          PYTHONPATH: /usr/local/bin:/usr/local/bin/gki
 
       - name: Verify mkbootimg.py
         run: |
