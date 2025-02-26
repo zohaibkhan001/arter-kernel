@@ -112,8 +112,12 @@ jobs:
       #       arter97-kernel-*-kernelsu-boot.img
 
       #To extract Kernel Version to use in Upload Name
-      - name: Get Kernel Version
-        run: echo "KERNEL_VERSION=$(ls arter97-kernel-*-kernelsu-boot.img | sed -E 's/arter97-kernel-(.*)-kernelsu-boot.img/\1/')" >> $GITHUB_ENV
+      - name: Get and Display Kernel Version
+        run: |
+          KERNEL_VERSION=$(ls arter97-kernel-*-kernelsu-boot.img | sed -E 's/arter97-kernel-(.*)-kernelsu-boot.img/\1/')
+          echo "KERNEL_VERSION=$KERNEL_VERSION" >> $GITHUB_ENV
+          echo "Kernel Version: $KERNEL_VERSION"
+
 
       - name: Upload arter97 KernelSU Boot Image
         uses: actions/upload-artifact@v4
