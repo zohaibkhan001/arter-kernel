@@ -118,11 +118,22 @@ jobs:
           echo "KERNEL_VERSION=$KERNEL_VERSION" >> $GITHUB_ENV
           echo "Kernel Version: $KERNEL_VERSION"
 
-      #Uploads file as Zip. Extract after download 
+      #Uploads file as Zip (But extracted img will have same original name). Extract after download 
+      # - name: Upload arter97 KernelSU Boot Image
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: "arter97-kernel-${{ env.KERNEL_VERSION }}-KSUNext-SuSFS-boot.img"
+      #     path: arter97-kernel-*-kernelsu-boot.img
+
+      #Rename file so that zip contains img with renamed name
+      - name: Rename Boot Image
+        run: mv arter97-kernel-*-kernelsu-boot.img "arter97-kernel-${{ env.KERNEL_VERSION }}-KSUNext-SuSFS-boot.img"
+
       - name: Upload arter97 KernelSU Boot Image
         uses: actions/upload-artifact@v4
         with:
           name: "arter97-kernel-${{ env.KERNEL_VERSION }}-KSUNext-SuSFS-boot.img"
-          path: arter97-kernel-*-kernelsu-boot.img
+          path: "arter97-kernel-${{ env.KERNEL_VERSION }}-KSUNext-SuSFS-boot.img"
+
 
 
