@@ -53,8 +53,14 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Checking KernelSU Folder
+        run: ls -lh drivers/kernelsu
+
       - name: Remove Existing KernelSU Folder
         run: rm -rf drivers/kernelsu
+
+      - name: Confirming KernelSU Folder is deleted 
+        run: ls -lh drivers/kernelsu
 
       - name: Setup KernelSU
         run: |
@@ -73,14 +79,19 @@ jobs:
         run: |
           git clone https://gitlab.com/simonpunk/susfs4ksu.git -b gki-android13-5.10
 
-      - name: Apply SUSFS Patches
+      - name: Copying and Verifying SUSFS Files
         run: |
           cp susfs4ksu/kernel_patches/50_add_susfs_in_gki-android13-5.10.patch ./
           cp susfs4ksu/kernel_patches/fs/* ./fs/
           cp susfs4ksu/kernel_patches/include/linux/* ./include/linux/
+          find fs -iname "*sus*"
+          find include/linux \( -iname "*susfs*" -o -iname "*sus_su*" \)
+
+      - name: Apply SUSFS Patches
+        run: |
           patch -p1 < 50_add_susfs_in_gki-android13-5.10.patch
 
-      - name: Modify Build Script and Make it Executable
+      - name: Modify Build Script (For KSUNext CONFIG_KSU_WITH_KPROBES=n ) and Make it Executable
         run: |
           sed -i 's~make "\$@" || exit 1~make olddefconfig "\$@" || exit 1\n\tsed -i '\''/^# CONFIG_KSU_ALLOWLIST_WORKAROUND is not set/a # CONFIG_KSU_WITH_KPROBES is not set'\'' .config\n\tgrep "CONFIG_KSU" .config\n\tmake -j$(nproc) "\$@" || exit 1~' build_kernel.sh
           chmod +x build_kernel.sh
@@ -98,7 +109,7 @@ jobs:
       #       arter97-kernel-*-kernelsu-boot.img
 
       #To extract Kernel Version to use in Upload Name
-      - name: Set Kernel Version
+      - name: Get Kernel Version
         run: echo "KERNEL_VERSION=$(ls arter97-kernel-*-kernelsu-boot.img | sed -E 's/arter97-kernel-(.*)-kernelsu-boot.img/\1/')" >> $GITHUB_ENV
 
       - name: Upload arter97 KernelSU Boot Image
