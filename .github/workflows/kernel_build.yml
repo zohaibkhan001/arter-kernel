@@ -55,13 +55,15 @@ jobs:
           fetch-depth: 1
 
       - name: Checking KernelSU Folder
-        run: ls -lh drivers/kernelsu
+        run: |
+          ls -lh drivers/kernelsu || echo "drivers/kernelsu not found, as expected."
 
       - name: Remove Existing KernelSU Folder
         run: rm -rf drivers/kernelsu
 
       - name: Confirming KernelSU Folder is deleted 
-        run: ls -lh drivers/kernelsu
+        run: |
+          ls -lh drivers/kernelsu || echo "drivers/kernelsu not found, as expected."
 
       - name: Setup KernelSU
         run: |
