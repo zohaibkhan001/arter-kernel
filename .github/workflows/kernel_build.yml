@@ -45,8 +45,8 @@ jobs:
       - name: Verify mkbootimg.py
         run: |
           which mkbootimg.py
-          mkbootimg.py --help
-          echo $PYTHONPATH
+          # mkbootimg.py --help
+          # echo $PYTHONPATH
           
       - name: Checkout Kernel Source
         uses: actions/checkout@v4
@@ -88,10 +88,22 @@ jobs:
       - name: Compile Kernel
         run: ./build_kernel.sh
 
-      - name: Upload Artifacts
+      #Uploads both files as zip.
+      # - name: Upload Artifacts
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: compiled-kernel
+      #     path: |
+      #       boot.img
+      #       arter97-kernel-*-kernelsu-boot.img
+
+      #To extract Kernel Version to use in Upload Name
+      - name: Set Kernel Version
+        run: echo "KERNEL_VERSION=$(ls arter97-kernel-*-kernelsu-boot.img | sed -E 's/arter97-kernel-(.*)-kernelsu-boot.img/\1/')" >> $GITHUB_ENV
+
+      - name: Upload arter97 KernelSU Boot Image
         uses: actions/upload-artifact@v4
         with:
-          name: compiled-kernel
-          path: |
-            boot.img
-            arter97-kernel-*-kernelsu-boot.img
+          name: "arter97-kernel-${{ env.KERNEL_VERSION }}-KSUNext-SuSFS-boot.img"
+          path: arter97-kernel-*-kernelsu-boot.img
+
