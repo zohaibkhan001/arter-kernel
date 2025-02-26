@@ -38,6 +38,7 @@ jobs:
           git clone https://android.googlesource.com/platform/system/tools/mkbootimg
           cd mkbootimg
           chmod +x mkbootimg.py
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
           sudo mv mkbootimg.py /usr/local/bin/mkbootimg.py
           
       - name: Checkout Kernel Source
