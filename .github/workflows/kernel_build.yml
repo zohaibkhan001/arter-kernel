@@ -40,7 +40,13 @@ jobs:
           chmod +x mkbootimg.py
           export PYTHONPATH=$PYTHONPATH:$(pwd)
           export PYTHONPATH=$PYTHONPATH:$(pwd)/gki
-          sudo ln -s $(pwd)/mkbootimg.py /usr/local/bin/mkbootimg.py
+          sudo ln -sf $(pwd)/mkbootimg.py /usr/local/bin/mkbootimg.py
+          sudo chmod +x /usr/local/bin/mkbootimg.py
+
+      - name: Verify mkbootimg.py
+        run: |
+          which mkbootimg.py
+          mkbootimg.py --help
           
       - name: Checkout Kernel Source
         uses: actions/checkout@v4
