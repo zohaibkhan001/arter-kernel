@@ -1,4 +1,4 @@
-name: Kernel Build with KernelSU and SUSFS
+name: Kernel Build with KSUNext and SuSFS
 
 on:
   push:
