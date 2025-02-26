@@ -34,7 +34,8 @@ jobs:
 
       - name: Setup mkbootimg
         run: |
-          git clone https://github.com/LineageOS/android_system_tools_mkbootimg mkbootimg
+          # git clone https://github.com/LineageOS/android_system_tools_mkbootimg mkbootimg
+          git clone https://android.googlesource.com/platform/system/tools/mkbootimg
           cd mkbootimg
           chmod +x mkbootimg.py
           sudo cp mkbootimg.py /usr/local/bin/mkbootimg.py
